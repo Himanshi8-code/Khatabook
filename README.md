@@ -1,3 +1,3 @@
 # Khatabook
-this is my first repository.<br>
-Team members: Kalpana Manral, Kalpana Aswal, Harshit Vishwakarma & Gsutam Tilara.
+This is my first repository.<br>
+Team members: Kalpana Manral, Kalpana Aswal, Harshit Vishwakarma & Gautam Tilara.
