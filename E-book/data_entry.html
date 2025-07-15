@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <style>
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+/* Dashboard Section */
+.dashboard-section {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Header Styles */
+.dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid #f0f0f0;
+    padding-bottom: 10px;
+}
+
+h2 {
+    color: #333;
+}
+
+.action-buttons .btn {
+    border: none;
+    padding: 8px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+.btn.primary {
+    background-color: #007bff;
+    color: white;
+}
+
+.btn.secondary {
+    background-color: #f0f0f0;
+    color: #333;
+}
+
+/* Filter and Input Styles */
+.filters {
+    margin: 20px 0;
+    display: flex;
+    justify-content: space-between;
+}
+
+.filter-group {
+    display: flex;
+     justify-content: space-between;
+            margin-bottom: 20px;
+            padding: 10px;
+            background-color: #e5e7eb;
+            border-radius: 8px;
+}
+
+label {
+    margin-bottom: 5px;
+}
+
+/* Transactions Table Styles */
+.transactions-table {
+    margin: 20px 0;
+}
+
+.table-header {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    background-color: #f9f9f9;
+    padding: 10px;
+    font-weight: bold;
+}
+.footer{
+    background-color: antiquewhite;
+    padding: 1em;
+    text-align: center;
+    border-top: 1px solid grey;
+    display: block;
+    unicode-bidi: isolate;
+}
+/* Summary Cards Styles */
+.summary-cards {
+    display: flex;
+    justify-content: space-between;
+}
+
+.summary-card {
+    background-color: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 15px;
+    flex: 1;
+    margin: 5px;
+    text-align: center;
+}
+
+.summary-card h3 {
+    margin: 0 0 10px;
+}
+
+.amount {
+    font-weight: bold;
+    font-size: 1.5em;
+}
+</style>
+</head>
+<body>
+        <div class="dashboard-section">
+            <div class="dashboard-header">
+                <h2>Client Transactions</h2>
+                <div class="action-buttons">
+                    <button class="btn primary" id="addTransactionBtn">+ Add Transaction</button>
+                    <button class="btn secondary">Generate Report</button>
+                </div>
+            </div>
+            
+            <div class="filters">
+                <div class="filter-group">
+                    <label>Type:</label>
+                    <select id="filterType" class="form-control">
+                        <option value="all">All</option>
+                        <option value="cash">Cash</option>
+                        <option value="receipt">Receipt</option>
+                        <option value="qr">QR Payment</option>
+                    </select>
+                    <input type="text" placeholder="Search transactions..." />
+                </div>
+            </div>
+            <div class="transactions-table">
+                <div class="table-header">
+                    <div>Client</div>
+                    <div>Amount Given</div> 
+                    <div>Date</div>
+                    <div>Type</div>
+                    <div>Status</div>
+                </div>
+            </div>
+        </div>
+           <footer> 
+            <div class="summary-cards">
+                <div class="summary-card">
+                    <h3>Total Given</h3>
+                    <div class="amount" id="totalGiven">₹0</div>
+                </div>
+                <div class="summary-card">
+                    <h3>Total Due</h3>
+                    <div class="amount" id="totalDue">₹0</div>
+                </div>
+                <div class="summary-card">
+                    <h3>Pending Transactions</h3>
+                    <div class="amount" id="pendingCount">0</div>
+                </div>
+            </div></footer>
+        <script>
+// Function to render transactions in the table
+function renderTransactions() {
+    const transactionsTable = document.querySelector('.transactions-table');
+    transactionsTable.innerHTML = '<div class="table-header"><div>Client</div><div>Amount Given</div><div>Amount Due</div><div>Date</div><div>Type</div><div>Status</div></div>';
+    
+    transactions.forEach(transaction => {
+        const row = document.createElement('div');
+        row.style.display = 'grid';
+        row.style.gridTemplateColumns = 'repeat(6, 1fr)';
+        row.innerHTML = `
+            <div>${transaction.client}</div>
+            <div>₹${transaction.amountGiven}</div>
+            <div>₹${transaction.amountDue}</div>
+            <div>${transaction.date}</div>
+            <div>${transaction.type}</div>
+            <div>${transaction.status}</div>
+        `;
+        transactionsTable.appendChild(row);
+    });
+
+    // Update summary values
+    updateSummary();
+}
+
+// Function to update summary
+function updateSummary() {
+    const totalGiven = transactions.reduce((sum, transaction) => sum + transaction.amountGiven, 0);
+    const totalDue = transactions.reduce((sum, transaction) => sum + transaction.amountDue, 0);
+    const pendingCount = transactions.filter(transaction => transaction.status === 'Pending').length;
+
+    document.getElementById('totalGiven').textContent = `₹${totalGiven}`;
+    document.getElementById('totalDue').textContent = `₹${totalDue}`;
+    document.getElementById('pendingCount').textContent = `${pendingCount}`;
+}
+
+// Initial render
+renderTransactions();
+</script>
+</body>
+</html>

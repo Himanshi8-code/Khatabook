@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>login</title>
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --secondary-color: #1e40af;
+            --accent-color: #3b82f6;
+            --text-color: #1f2937;
+            --light-text: #6b7280;
+            --bg-color: #f9fafb;
+            --card-bg: #ffffff;
+            --error-color: #ef4444;
+            --success-color: #10b981;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            width: 100%;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border-radius: 16px;
+            overflow: hidden;
+            background-color: var(--card-bg);
+        }
+
+        .hero-section {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            text-align: center;
+        }
+
+        .logo {
+            margin-bottom: 30px;
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: white;
+        }
+
+        .logo img {
+            width: 80px;
+            height: 80px;
+        }
+
+        .hero-content h1 {
+            font-size: 2.2rem;
+            margin-bottom: 15px;
+        }
+
+        .hero-content p {
+            font-size: 1rem;
+            line-height: 1.6;
+            opacity: 0.9;
+        }
+
+        .features {
+            margin-top: 40px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .feature {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.9rem;
+        }
+
+        .feature-icon {
+            width: 30px;
+            height: 30px;
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .auth-section {
+            padding: 60px 40px;
+            position: relative;
+        }
+
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid #e5e7eb;
+            margin-bottom: 30px;
+        }
+
+        .tab {
+            padding: 12px 20px;
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--light-text);
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .tab.active {
+            color: var(--primary-color);
+        }
+
+        .tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: var(--primary-color);
+        }
+
+        .auth-form {
+            display: none;
+        }
+
+        .auth-form.active {
+            display: block;
+        }
+
+        .form-title {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: var(--text-color);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--text-color);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--text-color);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .password-input {
+            position: relative;
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: var(--light-text);
+        }
+        .remember-me {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .forgot-password a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 14px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: background-color 0.3s ease;
+        }
+
+        .submit-btn:hover {
+            background-color: var(--secondary-color);
+        }
+
+        .social-login {
+            margin-top: 30px;
+        }
+
+        .social-login p {
+            text-align: center;
+            color: var(--light-text);
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+            position: relative;
+        }
+
+        .social-login p::before,
+        .social-login p::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            width: 30%;
+            height: 1px;
+            background-color: #e5e7eb;
+        }
+
+        .social-login p::before {
+            left: 0;
+        }
+
+        .social-login p::after {
+            right: 0;
+        }
+
+        .social-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .social-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #f3f4f6;
+            color: var(--text-color);
+            cursor: pointer;
+            border: none;
+            transition: background-color 0.3s ease;
+        }
+
+        .social-btn:hover {
+            background-color: #e5e7eb;
+        }
+
+        .error-message {
+            color: var(--error-color);
+            font-size: 0.8rem;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .success-message {
+            color: var(--success-color);
+            font-size: 0.9rem;
+            margin-top: 15px;
+            text-align: center;
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-section {
+                padding: 30px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+     <div class="container">
+        <div class="hero-section">
+            <div class="logo">
+                <img src="C:\Users\hp\Pictures\Screenshots\Screenshot 2025-04-27 135827.png" alt="Khatabook logo showing a stylized digital book with a lock icon symbolizing secure banking" />
+            </div>
+            <div class="hero-content">
+                <h1>Khatabook</h1>
+                <p>Your secure digital banking solution with military-grade encryption and real-time transaction updates</p>
+            </div>
+            <div class="features">
+                <div class="feature">
+                    <div class="feature-icon">✓</div>
+                    <span>Secure Transactions</span>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">✓</div>
+                    <span>Real-time Updates</span>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">✓</div>
+                    <span>24/7 Access</span>
+                </div>
+            </div>
+        </div>
+        <div class="auth-section">
+            <div class="tabs">
+                <div class="tab active" data-tab="login">Login</div>
+            </div>
+    <form class="auth-form active" id="login-form">
+                <h2 class="form-title">Welcome Back</h2>
+                <div class="form-group">
+                    <label for="login-email" class="form-label">User ID / Email</label>
+                    <input type="text" id="login-email" class="form-control" placeholder="Enter your email or user ID">
+                    <div class="error-message" id="login-email-error">Please enter a valid email or user ID</div>
+                </div>
+                <div class="form-group">
+                    <label for="login-password" class="form-label">Password</label>
+                    <div class="password-input">
+                        <input type="password" id="login-password" class="form-control" placeholder="Enter your password">
+                        <span class="toggle-password" id="toggle-login-password">👁️</span>
+                    </div>
+                    <div class="error-message" id="login-password-error">Password must be at least 8 characters</div>
+                </div>
+                <div class="form-footer">
+                    <div class="remember-me">
+                        <input type="checkbox" id="remember-me">
+                        <label for="remember-me">Remember me</label>
+                    </div>
+                    <div class="forgot-password">
+                        <a href="#">Forgot password?</a>
+                    </div>
+                </div>
+                <button type="submit" class="submit-btn">Login</button>
+                <div class="success-message" id="login-success"><a href="data_entry.html">Login successful! Redirecting...</a></div>
+                <div class="social-login">
+                    <p>Or login with</p>
+                    <div class="social-buttons">
+                        <button type="button" class="social-btn">Google</button>
+                        </div>
+                </div>
+            </form>
+        </div>
+     </div>
+     <script>
+     // Tab switching
+        const tabs = document.querySelectorAll('.tab');
+        const authForms = document.querySelectorAll('.auth-form');
+
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                // Remove active class from all tabs and forms
+                tabs.forEach(t => t.classList.remove('active'));
+                authForms.forEach(form => form.classList.remove('active'));
+
+                // Add active class to clicked tab and corresponding form
+                tab.classList.add('active');
+                const tabName = tab.getAttribute('data-tab');
+                document.getElementById(`${tabName}-form`).classList.add('active');
+            });
+        });
+
+        // Password toggle visibility
+        const togglePassword = (passwordInputId, toggleBtnId) => {
+            const passwordInput = document.getElementById(passwordInputId);
+            const toggleBtn = document.getElementById(toggleBtnId);
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
+            toggleBtn.textContent = type === 'password' ? '👁️' : '👁️‍🗨️';
+        };
+
+        document.getElementById('toggle-login-password').addEventListener('click', () => {
+            togglePassword('login-password', 'toggle-login-password');
+        });
+         // Form validation
+        const validateEmail = (email) => {
+            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return re.test(email);
+        };
+
+        const validatePassword = (password) => {
+            return password.length >= 8 && /\d/.test(password);
+        };
+
+        // Login form submission
+        document.getElementById('login-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            let isValid = true;
+            
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+            const emailError = document.getElementById('login-email-error');
+            const passwordError = document.getElementById('login-password-error');
+            const successMessage = document.getElementById('login-success');
+            
+            // Reset errors
+            emailError.style.display = 'none';
+            passwordError.style.display = 'none';
+            
+            if (!email) {
+                emailError.style.display = 'block';
+                isValid = false;
+            }
+            
+            if (!validatePassword(password)) {
+                passwordError.style.display = 'block';
+                isValid = false;
+            }
+            
+            if (isValid) {
+                // Simulate login success
+                successMessage.style.display = 'block';
+                // In a real app, you would submit to server here
+                console.log('Login submitted:', { email, password });
+                
+                // Reset form after delay
+                setTimeout(() => {
+                    e.target.reset();
+                    successMessage.style.display = 'none';
+                }, 1500);
+            }
+        });
+    </script>
+</body>
+</html>
